@@ -35,7 +35,7 @@ function AuthPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const p = schema.safeParse(f);
-    if (!p.success) return toast.error(p.error.issues[0].message);
+    if (!p.success) return void toast.error(p.error.issues[0]?.message);
     setBusy(true);
     if (mode === "in") {
       const { error } = await supabase.auth.signInWithPassword(p.data);

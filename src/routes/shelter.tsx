@@ -58,7 +58,7 @@ function Shelter() {
 
   const decide = async (id: string, status: "approved" | "declined") => {
     const { error } = await supabase.from("adoption_requests").update({ status }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     toast.success(status === "approved" ? "Approved — pet marked adopted" : "Request declined");
     qc.invalidateQueries();
   };
@@ -123,9 +123,9 @@ function AddPet({ uid, onDone }: { uid: string; onDone: () => void }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const p = petSchema.safeParse(f);
-    if (!p.success) return toast.error(p.error.issues[0].message);
-    if (!file) return toast.error("Add a photo");
-    if (!file.type.startsWith("image/")) return toast.error("Photo must be an image");
+    if (!p.success) return void toast.error(p.error.issues[0]?.message);
+    if (!file) return void toast.error("Add a photo");
+    if (!file.type.startsWith("image/")) return void toast.error("Photo must be an image");
     setBusy(true);
     try {
       const path = `${uid}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9.]/g, "")}`;

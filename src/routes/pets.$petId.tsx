@@ -49,12 +49,12 @@ function PetPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) return void toast.error(parsed.error.issues[0]?.message);
     if (!session) return;
     setBusy(true);
     const { error } = await supabase.from("adoption_requests").insert({ ...parsed.data, pet_id: pet.id, adopter_id: session.user.id });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     setSent(true);
     qc.invalidateQueries({ queryKey: ["my-requests"] });
     toast.success("Request sent to the shelter");
