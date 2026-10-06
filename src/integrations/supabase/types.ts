@@ -14,16 +14,170 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      adoption_requests: {
+        Row: {
+          adopter_id: string
+          adopter_name: string
+          city: string
+          created_at: string
+          home_type: string
+          id: string
+          message: string
+          pet_id: string
+          phone: string
+          shelter_id: string | null
+          status: string
+        }
+        Insert: {
+          adopter_id: string
+          adopter_name: string
+          city: string
+          created_at?: string
+          home_type?: string
+          id?: string
+          message: string
+          pet_id: string
+          phone: string
+          shelter_id?: string | null
+          status?: string
+        }
+        Update: {
+          adopter_id?: string
+          adopter_name?: string
+          city?: string
+          created_at?: string
+          home_type?: string
+          id?: string
+          message?: string
+          pet_id?: string
+          phone?: string
+          shelter_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "adoption_requests_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pets: {
+        Row: {
+          age_label: string
+          apartment_ok: boolean
+          breed: string
+          city: string
+          created_at: string
+          description: string
+          gender: string
+          id: string
+          kids_ok: boolean
+          name: string
+          photo_url: string
+          shelter_id: string | null
+          shelter_name: string
+          species: string
+          status: string
+          temperament: string
+          vaccinated: boolean
+        }
+        Insert: {
+          age_label?: string
+          apartment_ok?: boolean
+          breed?: string
+          city?: string
+          created_at?: string
+          description?: string
+          gender?: string
+          id?: string
+          kids_ok?: boolean
+          name: string
+          photo_url?: string
+          shelter_id?: string | null
+          shelter_name?: string
+          species: string
+          status?: string
+          temperament?: string
+          vaccinated?: boolean
+        }
+        Update: {
+          age_label?: string
+          apartment_ok?: boolean
+          breed?: string
+          city?: string
+          created_at?: string
+          description?: string
+          gender?: string
+          id?: string
+          kids_ok?: boolean
+          name?: string
+          photo_url?: string
+          shelter_id?: string | null
+          shelter_name?: string
+          species?: string
+          status?: string
+          temperament?: string
+          vaccinated?: boolean
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          city: string
+          created_at: string
+          display_name: string
+          id: string
+        }
+        Insert: {
+          city?: string
+          created_at?: string
+          display_name?: string
+          id: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "shelter" | "adopter"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +304,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["shelter", "adopter"],
+    },
   },
 } as const
